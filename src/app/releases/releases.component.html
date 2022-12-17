@@ -1,0 +1,248 @@
+<div class="app-container">
+	<div class="p-4">
+		<div class="container">
+			<h1 class="mb-5 d-flex align-items-center">
+				{{ header }}
+				<span *ngIf="search_element.value; else country_selector">
+					{{ search_element.value }}</span
+				>
+			</h1>
+			<ng-template #country_selector>
+				<select
+					class="form-select form-select-sm ms-3"
+					style="width: 10%"
+					#selectedCountry
+					(change)="changeCountryNewReleases(selectedCountry)"
+				>
+					<option
+						#countries
+						*ngFor="let country of this.COUNTRIES"
+						[value]="country.code"
+					>
+						{{ country.country }}
+					</option>
+				</select>
+			</ng-template>
+			<input
+				#search_element
+				class="form-control w-25 mx-auto"
+				placeholder="Search Spotify"
+				type="text"
+				(change)="invokeSearch(search_element.value)"
+			/>
+
+			<div
+				class="text-center mt-4"
+				*ngIf="this.ITEMS_TO_SHOW; else no_releases"
+			>
+				<div
+					class="row row-cols-auto"
+					*ngFor="let collection of this.ITEMS_TO_SHOW"
+				>
+					<div class="col mb-4" *ngFor="let album of collection.albums?.items">
+						<div
+							#album_card
+							class="card btn btn-outline-primary"
+							role="button"
+							style="width: 19rem"
+							(click)="toggleCard(album_card)"
+							(mouseenter)="hoverOnCard($event)"
+						>
+							<input
+								class="form-check-input position-absolute ms-2 mt-2"
+								type="checkbox"
+								[id]="album.id"
+							/>
+							<img
+								[src]="album.images[0].url"
+								class="card-img-top"
+								[alt]="'thumbnail'.concat(' of ', album.name)"
+							/>
+							<div class="card-body">
+								<div class="row text-start">
+									<div class="col justify-content-start">
+										<span class="fw-bolder">{{ album.name }}</span>
+										<br />
+										<span *ngFor="let artist of album.artists">{{
+											artist.name
+										}}</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<ng-template #no_releases>
+				<div class="spinner-grow" role="status">
+					<span class="visually-hidden">Loading...</span>
+				</div>
+			</ng-template>
+		</div>
+	</div>
+</div>
+<div class="position-absolute position-sticky d-inline bottom-0 start-0 pb-4">
+	<button
+		role="button"
+		class="btn btn-outline-danger btn-lg ms-3 mb-3"
+		data-bs-toggle="modal"
+		href="#PlaylistsModal"
+		(click)="getSavedPlaylists()"
+	>
+		<fa-icon [icon]="faPlus"></fa-icon>
+		<span class="visually-hidden">Add playlist</span>
+	</button>
+</div>
+<!-- show_playlists modal -->
+<div
+	class="modal fade"
+	id="PlaylistsModal"
+	data-bs-backdrop="static"
+	tabindex="-1"
+	aria-labelledby="PlaylistsModalLabel"
+	aria-hidden="true"
+>
+	<div class="modal-dialog modal-lg modal-dialog-scrollable">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5" id="PlaylistsModalLabel">
+					Add to playlist
+				</h1>
+				<button
+					type="button"
+					class="btn-close"
+					data-bs-dismiss="modal"
+					aria-label="Close"
+				></button>
+			</div>
+			<div class="modal-body">
+				<input
+					class="form-control w-50 mx-auto"
+					placeholder="Search for saved playlists"
+					type="text"
+					name=""
+					id=""
+				/>
+				<div
+					class="text-center mt-4"
+					*ngIf="this.savedPlaylists; else no_releases"
+				>
+					<div class="row row-cols-auto">
+						<div
+							class="col mb-4 col-auto"
+							*ngFor="let playlist of this.savedPlaylists"
+						>
+							<div
+								#playlist_card
+								class="card btn btn-outline-primary"
+								role="button"
+								style="width: 10rem"
+								(click)="toggleCard(playlist_card)"
+								(mouseenter)="hoverOnCard($event)"
+							>
+								<input
+									class="form-check-input position-absolute ms-2 mt-2"
+									type="checkbox"
+									[id]="playlist._id"
+								/>
+								<img [src]="playlist.image" class="card-img-top" alt="..." />
+								<div class="card-body">
+									<div class="row text-start">
+										<div class="col justify-content-start">
+											<span class="fw-bolder">{{ playlist.name }}</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<ng-template #no_releases>
+					<div class="spinner-grow" role="status">
+						<span class="visually-hidden">Loading...</span>
+					</div>
+				</ng-template>
+			</div>
+			<div class="modal-footer justify-content-between">
+				<!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+					Close
+				</button> -->
+				<button
+					type="button"
+					class="btn btn-outline-primary"
+					href="#createPlaylistModal"
+					data-bs-toggle="modal"
+				>
+					Create new Playlist
+				</button>
+				<button
+					type="submit"
+					class="btn btn-primary"
+					(click)="addToPlaylists()"
+				>
+					Add
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- playlist_create modal -->
+<div
+	class="modal fade"
+	id="createPlaylistModal"
+	data-bs-backdrop="static"
+	data-bs-keyboard="false"
+	tabindex="-1"
+	aria-labelledby="createPlaylistModalLabel"
+	aria-hidden="true"
+>
+	<div class="modal-dialog modal-dialog-scrollable">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5" id="createPlaylistModalLabel">
+					Create new playlist
+				</h1>
+				<button
+					type="button"
+					class="btn-close"
+					data-bs-dismiss="modal"
+					aria-label="Close"
+				></button>
+			</div>
+			<div class="modal-body">
+				<div class="form-floating mb-3">
+					<input
+						type="email"
+						class="form-control"
+						id="floatingInput"
+						placeholder="Playlist to vibe on."
+						autofocus
+						[formControl]="newPlaylistName"
+						[ngClass]="{ 'is-invalid': this.newPlaylistName.errors }"
+					/>
+					<label for="floatingInput">Name</label>
+					<div class="invalid-feedback" *ngIf="this.newPlaylistName?.errors">
+						Name is required
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button
+					type="button"
+					class="btn btn-secondary"
+					data-bs-target="#PlaylistsModal"
+					data-bs-toggle="modal"
+				>
+					Back
+				</button>
+				<button
+					type="button"
+					class="btn btn-primary"
+					(click)="addToPlaylists()"
+				>
+					Create
+				</button>
+			</div>
+		</div>
+	</div>
+</div>

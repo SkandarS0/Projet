@@ -1,0 +1,144 @@
+<div class="app-container">
+	<div class="p-4">
+		<div class="container">
+			<h1 class="mb-5 d-flex align-items-center">Saved Playlists</h1>
+			<div class="card main-view p-3">
+				<caption>
+					{{
+						this.playlists.length
+					}}
+					playlist
+				</caption>
+				<table class="card-body table table-bordered text-center">
+					<thead>
+						<tr>
+							<th scope="col">Name</th>
+							<th scope="col">Date of creation</th>
+							<th scope="col">N° Albums</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr *ngFor="let playlist of playlists">
+							<td>{{ playlist.name }}</td>
+							<td>{{ playlist.date_created | date : "long" }}</td>
+							<td>{{ playlist.albums?.length }}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<ng-template #no_playlists>
+				<div class="spinner-grow" role="status">
+					<span class="visually-hidden">Loading...</span>
+				</div>
+			</ng-template>
+		</div>
+	</div>
+</div>
+<div
+	class="offcanvas offcanvas-top"
+	data-bs-backdrop="false"
+	data-bs-scroll="true"
+	tabindex="-1"
+	id="searchSection"
+	aria-labelledby="searchSectionLabel"
+>
+	<div class="offcanvas-header">
+		<button
+			type="button"
+			class="btn-close float-end"
+			data-bs-dismiss="offcanvas"
+			aria-label="Close"
+		></button>
+	</div>
+	<div class="offcanvas-body">
+		<div [formGroup]="search_form">
+			<div class="row mb-3 g-3 align-items-center">
+				<div class="col-auto">
+					<label for="sort_field" class="col-form-label">Sort field</label>
+				</div>
+				<div class="col-auto">
+					<select
+						id="sort_field"
+						class="form-select"
+						formControlName="sort_field"
+					>
+						<option value="name">Name</option>
+						<option value="date_created">Date of creation</option>
+						<option value="n_albums">Number of albums</option>
+					</select>
+				</div>
+				<div class="col-auto">
+					<label for="sort_order" class="col-form-label">Sort order</label>
+				</div>
+				<div class="col-auto">
+					<select
+						id="sort_order"
+						class="form-select"
+						formControlName="sort_order"
+					>
+						<option value="1">Ascending</option>
+						<option value="-1">Descending</option>
+					</select>
+				</div>
+				<div class="col-auto">
+					<label for="limit" class="col-form-label">Limit</label>
+				</div>
+				<div class="col-auto">
+					<input
+						id="limit"
+						class="form-control w-50"
+						type="number"
+						formControlName="limit"
+						min="0"
+					/>
+				</div>
+			</div>
+			<div class="row mb-3 g-3 align-items-center">
+				<div class="col-auto">
+					<label for="search_field" class="col-form-label">Search field</label>
+				</div>
+				<div class="col-auto">
+					<select
+						id="search_field"
+						class="form-select"
+						formControlName="q_field"
+					>
+						<option value="">Not involved</option>
+						<option value="name">Playlist's name</option>
+					</select>
+				</div>
+				<div class="col-auto">
+					<label for="search_query" class="col-form-label">Query</label>
+				</div>
+				<div class="col-auto">
+					<input id="search_query" class="form-control" formControlName="q" />
+				</div>
+			</div>
+			<div class="row g-3 align-items-center">
+				<div class="col-auto">
+					<button
+						type="submit"
+						class="btn btn-primary"
+						(click)="invokeSearch()"
+					>
+						Start
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class=""></div>
+</div>
+<div class="position-absolute position-sticky d-inline bottom-0 start-0 pb-4">
+	<button
+		role="button"
+		class="btn btn-outline-danger btn-lg ms-3 mb-3"
+		type="button"
+		data-bs-toggle="offcanvas"
+		data-bs-target="#searchSection"
+		aria-controls="searchSection"
+	>
+		<fa-icon [icon]="faSearch"></fa-icon>
+		<span class="visually-hidden">Search</span>
+	</button>
+</div>
