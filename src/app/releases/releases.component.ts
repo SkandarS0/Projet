@@ -844,11 +844,6 @@ export class ListNewReleases {
 									this.toggleCard(playlist_card.nativeElement);
 								});
 							});
-							// picked_playlists_id.forEach((playlist_id) => {
-							// 	this.playlistService
-							// 		.addToPlaylist(playlist_id, response)
-							// 		.subscribe();
-							// });
 						} else if (
 							picked_playlists_id.length != 0 &&
 							!(this.newPlaylistName.value && this.newPlaylistName.valid)
@@ -857,11 +852,7 @@ export class ListNewReleases {
 						}
 					})
 				)
-				.subscribe(() => {
-					// picked_albums_cards.forEach((album_card) => {
-					// 	this.toggleCard(album_card.nativeElement);
-					// });
-				});
+				.subscribe();
 		} else {
 			console.warn('no albums selected');
 		}
@@ -891,9 +882,7 @@ export class ListNewReleases {
 			document.documentElement.offsetTop;
 		let max = document.documentElement.scrollHeight;
 		if (parseFloat((pos / max).toFixed(2)) >= 0.75) {
-			// this.NEW_RELEASES.forEach((element) => {
-			// 	console.log(element.albums.href);
-			// });
+			// TODO: load more content when the user gets to the end of the page
 		}
 	}
 	getSavedPlaylists() {

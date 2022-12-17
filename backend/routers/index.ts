@@ -59,19 +59,4 @@ playlistsRouter.patch('/add_to/:playlist_id', async (req, res) => {
 		.updateOne({ _id: id }, { $addToSet: { albums: { $each: req.body } } });
 	res.status(204).json(playlist_update);
 });
-
-// playlistsRouter.post('/edit/:id', async (req, res) => {
-// 	var id = new ObjectId(req.params.id);
-// 	var title = req.body.title;
-
-// 	var r = await db
-// 		.collection('playlists')
-// 		.updateOne({ _id: id }, { $set: { title: title } });
-// });
-
-// playlistsRouter.post('/delete/:id', async (req, res) => {
-// 	var id = new ObjectId(req.params.id);
-// 	var r = await db.collection('playlists').deleteOne({ _id: id });
-// });
-
 export default playlistsRouter;

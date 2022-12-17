@@ -184,31 +184,4 @@ export class SpotifyService {
 					)
 			  );
 	}
-	// getAlbums(config?: { market?: string }, ...id: string[]) {
-	// 	let endpoint = '/albums';
-	// 	return this.tokenVal != ''
-	// 		? this.http
-	// 				.get<Album>(`${this.SPOTIFY_ENDPOINT}${endpoint}/${id}`, {
-	// 					params: config,
-	// 					headers: {
-	// 						Authorization: `Bearer ${this.tokenVal}`,
-	// 					},
-	// 				})
-	// 				.pipe(
-	// 					catchError((err) => {
-	// 						return of();
-	// 					}),
-	// 					retry(3)
-	// 				)
-	// 		: this.get_token().pipe(
-	// 				mergeMap((token) =>
-	// 					this.http.get<Album>(`${this.SPOTIFY_ENDPOINT}${endpoint}`, {
-	// 						params: config,
-	// 						headers: {
-	// 							Authorization: `Bearer ${token}`,
-	// 						},
-	// 					})
-	// 				)
-	// 		  );
-	// }
 }
