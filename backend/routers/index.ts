@@ -1,9 +1,7 @@
-import cors from 'cors';
 import express from 'express';
 const playlistsRouter = express.Router();
 import { MongoClient, ObjectId } from 'mongodb';
 import { ENV } from '../environment/environment';
-import { DBPlaylist } from '../models';
 const client = new MongoClient(`mongodb://${ENV.DB_HOST}:${ENV.DB_PORT}/`, {
 	directConnection: true,
 	ssl: false,
@@ -11,22 +9,28 @@ const client = new MongoClient(`mongodb://${ENV.DB_HOST}:${ENV.DB_PORT}/`, {
 });
 const db = client.db('spotify');
 playlistsRouter.get('/', async (req, res) => {
+	// Returns all playlists or all playlists that follows the criterias
+	// // limit option
 	let limit = req.query.limit || '0';
+	// // sort options
 	let sort_field = req.query.sort_field || 'date_created';
 	let sort_order = req.query.sort_order || '-1';
+	let sortConfig: any = {};
+	sortConfig[sort_field.toString()] = parseInt(sort_order.toString());
+	// // filter options
 	let q = req.query.q || '';
 	let q_field = req.query.q_field || '-1';
-	let sortConfig: any = {};
 	let matchConfig: any = {};
-	sortConfig[sort_field.toString()] = parseInt(sort_order.toString());
 	matchConfig[q_field.toString()] = {
 		$regex: RegExp(q.toString() == '' ? '.' : q.toString(), 'ig'),
 	};
 	var playlists = db.collection('playlists').aggregate([
+		// filtering
 		{
 			$match:
 				q.toString() === '' || q_field.toString() === '' ? {} : matchConfig,
 		},
+		// added field n_albums that returns the size of the Array(albums)
 		{
 			$addFields: {
 				n_albums: {
@@ -34,6 +38,7 @@ playlistsRouter.get('/', async (req, res) => {
 				},
 			},
 		},
+		// sorting
 		{
 			$sort: sortConfig,
 		},

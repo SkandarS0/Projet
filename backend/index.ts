@@ -5,6 +5,8 @@ const app = express();
 const port = 3000;
 
 import playlistsRouter from './routers';
+
+// accepts requests from angular server
 app.use(
 	cors({
 		origin: 'http://localhost:4200',
