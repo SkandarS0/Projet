@@ -50,6 +50,7 @@ playlistsRouter.get('/', async (req, res) => {
 	);
 });
 playlistsRouter.post('/create', async (req, res) => {
+	// creates a playlist
 	let playlistObject = await db.collection('playlists').insertOne(req.body);
 	let playlist = await db
 		.collection('playlists')
@@ -58,6 +59,7 @@ playlistsRouter.post('/create', async (req, res) => {
 });
 
 playlistsRouter.patch('/add_to/:playlist_id', async (req, res) => {
+	// add one or more albums to one or more playlists
 	let id = new ObjectId(req.params.playlist_id);
 	let playlist_update = await db
 		.collection('playlists')
