@@ -7,7 +7,7 @@ import { Album, DBPlaylist } from 'backend/models';
 	providedIn: 'root',
 })
 export class PlaylistsService {
-	private BACKEND_ENDPOINT: string = `${ENV.BACKEND_HOST}:${ENV.BACKEND_PORT}`;
+	private BACKEND_ENDPOINT: string = `${ENV.BACKEND_HOST}`;
 	constructor(private http: HttpClient) {}
 	newPlaylist(playlist: DBPlaylist) {
 		return this.http.post<DBPlaylist>(

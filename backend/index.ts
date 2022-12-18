@@ -6,18 +6,16 @@ const port = 3000;
 
 import playlistsRouter from './routers';
 
-// accepts requests from angular server
-app.use(
-	cors({
-		origin: 'http://localhost:4200',
-	})
-);
+
 app.use(
 	bodyParser.json({
 		limit: 70000000000,
 	})
 );
-app.use('/playlists', playlistsRouter);
+app.use(
+	cors(),
+)
+app.use('/playlists', playlistsRouter, cors());
 
 app.listen(port, () => {
 	console.log(`Example app listening on port ${port}`);
