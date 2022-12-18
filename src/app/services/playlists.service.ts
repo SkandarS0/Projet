@@ -7,7 +7,7 @@ import { Album, DBPlaylist } from 'backend/models';
 	providedIn: 'root',
 })
 export class PlaylistsService {
-	private BACKEND_ENDPOINT: string = `http://${ENV.BACKEND_HOST}:${ENV.BACKEND_PORT}`;
+	private BACKEND_ENDPOINT: string = `${ENV.BACKEND_HOST}:${ENV.BACKEND_PORT}`;
 	constructor(private http: HttpClient) {}
 	newPlaylist(playlist: DBPlaylist) {
 		return this.http.post<DBPlaylist>(
@@ -24,6 +24,11 @@ export class PlaylistsService {
 		return this.http.patch(
 			`${this.BACKEND_ENDPOINT}/playlists/add_to/${playlist_id}`,
 			albums
+		);
+	}
+	deletePlaylist(playlist_id: string) {
+		return this.http.delete(
+			`${this.BACKEND_ENDPOINT}/playlists/${playlist_id}`
 		);
 	}
 }
