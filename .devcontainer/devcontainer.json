@@ -1,0 +1,17 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/javascript-node-mongo
+{
+	"name": "Node.js & Mongo DB",
+	"dockerComposeFile": "docker-compose.yml",
+	"service": "app",
+	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+	"features": {
+		"ghcr.io/devcontainers-contrib/features/angular-cli:1": {}
+	},
+	"forwardPorts": [3000, 27017],
+
+	"postCreateCommand": "cd ./backend && npm i"
+
+	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+	// "remoteUser": "root"
+}
