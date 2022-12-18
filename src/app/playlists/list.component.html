@@ -2,7 +2,7 @@
 	<div class="p-4">
 		<div class="container">
 			<h1 class="mb-5 d-flex align-items-center">Saved Playlists</h1>
-			<div class="card main-view p-3">
+			<div class="card main-view p-3" *ngIf="playlists.length != 0 else no_playlists">
 				<caption>
 					{{
 						this.playlists.length
@@ -15,6 +15,7 @@
 							<th scope="col">Name</th>
 							<th scope="col">Date of creation</th>
 							<th scope="col">N° Albums</th>
+							<th scope="col">Actions</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -22,13 +23,18 @@
 							<td>{{ playlist.name }}</td>
 							<td>{{ playlist.date_created | date : "long" }}</td>
 							<td>{{ playlist.albums?.length }}</td>
+							<td>
+								<button class="btn btn-danger" type="button" role="button" (click)="deletePlaylist(playlist._id!)">
+									<fa-icon [icon]="faTrash"></fa-icon>
+								</button>
+							</td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
 			<ng-template #no_playlists>
-				<div class="spinner-grow" role="status">
-					<span class="visually-hidden">Loading...</span>
+				<div class="card">
+					<div class="card-body fs-5">There are no playlists for the moment.</div>
 				</div>
 			</ng-template>
 		</div>
@@ -41,6 +47,7 @@
 	tabindex="-1"
 	id="searchSection"
 	aria-labelledby="searchSectionLabel"
+	*ngIf="playlists.length != 0 || is_searching"
 >
 	<div class="offcanvas-header">
 		<button
@@ -129,7 +136,7 @@
 	</div>
 	<div class=""></div>
 </div>
-<div class="position-absolute position-sticky d-inline bottom-0 start-0 pb-4">
+<div class="position-absolute position-sticky d-inline bottom-0 start-0 pb-4" *ngIf="playlists.length != 0 || is_searching">
 	<button
 		role="button"
 		class="btn btn-outline-danger btn-lg ms-3 mb-3"
