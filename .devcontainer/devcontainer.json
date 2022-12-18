@@ -10,8 +10,8 @@
 	},
 
 	"postCreateCommand": {
-		"backend_modules_installation": "cd ./backend && npm i && npm run start",
-		"frontend_modules_installation": "npm i && npm run start"
+		"backend_modules_installation": "cd ./backend && npm i",
+		"frontend_modules_installation": "npm i"
 	}
 
 	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
