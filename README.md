@@ -29,7 +29,11 @@ Students are:
 
 7. Go to the Ports tab and hover on the local address of the port 8080 and click on the earth icon(Open in browser).
 
-8. Feel free to contact us about any problem you encountered during set up.
+8. Try adding albums to a playlist by selecting them and clicking on the (+) button then creating a new playlist or choosing an existing one.
+
+9. Click on Playlists to see the playlists you have or to delete playlists
+
+10. Feel free to contact us about any problem you encountered during set up.
 
 > iskandarsouissi.7@gmail.com  
 > salmbelhaj21@gmail.com
