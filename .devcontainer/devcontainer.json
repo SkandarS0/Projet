@@ -12,8 +12,7 @@
 	"postCreateCommand": {
 		"backend_modules_installation": "cd ./backend && npm i && npm run start",
 		"frontend_modules_installation": "npm i && npm run start"
-	},
-	"forwardPorts": [3000]
+	}
 
 	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
 	// "remoteUser": "root"
